@@ -1,0 +1,1 @@
+camara1,cam.avi camara2,cam.avi camara3,cam.avi camara4,cam.avi camara5,cam.avi camara6,cam.avicam.avi 
