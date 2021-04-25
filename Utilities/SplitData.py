@@ -78,7 +78,7 @@ def suffle_dict(_dict, seed = 1):
     _dict = dict(temp)
     return _dict
 
-def validation_videos(unique_files, ratio = 0.2):
+def validation_videos(unique_files, ratio = 0.25):
     '''
     It returns a list with the videos to put into the validation set
     
@@ -157,7 +157,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_directory', type=str, default="../data")
-    parser.add_argument('--ratio', type=float, default=0.2)
+    parser.add_argument('--ratio', type=float, default=0.25)
     parser.add_argument('--seed', type=int, default=1)
 
     args = parser.parse_args()

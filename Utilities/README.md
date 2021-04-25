@@ -19,7 +19,7 @@ We recommend the following folder structure in the root (with the folder data in
 ## Arguments
 data_directory: Directory where the train and val folder are stored. Default: `../data`
 
-ratio: Ratio of the training data that will be used as validation. Default: `0.2`
+ratio: Ratio of the training data that will be used as validation. Default: `0.25`
 
 seed: Random seed of the split. Default: `1`
 

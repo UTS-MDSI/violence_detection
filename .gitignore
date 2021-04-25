@@ -1,4 +1,16 @@
+"""Files to be ignored - Git Flow"""
 
+# Compiled Python bytecode
+*.py[cod]
+
+# Log files
+*.log
+
+# Other extensions
+*.xml
+*.iml
+
+# Specific folders
 Login/.vscode/
 
 Login/__pycache__/
