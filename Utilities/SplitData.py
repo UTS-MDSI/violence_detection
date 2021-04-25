@@ -73,7 +73,7 @@ def suffle_dict(_dict, seed = 1):
     It returns a suffled dictionary
     '''
     random.seed(seed)
-    temp = list(_dict.items())
+    temp = sorted(list(_dict.items()))
     random.shuffle(temp)
     _dict = dict(temp)
     return _dict
