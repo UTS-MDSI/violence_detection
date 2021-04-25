@@ -9,12 +9,12 @@
 # Other extensions
 *.xml
 *.iml
+*.json
 
 # Specific folders
 Login/.vscode/
-
 Login/__pycache__/
-
 Login/data/
-
 Streaming/.vscode/
+.ipynb_checkpoints/
+__pycache__/
