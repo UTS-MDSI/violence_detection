@@ -18,3 +18,5 @@ Login/data/
 Streaming/.vscode/
 .ipynb_checkpoints/
 __pycache__/
+data/
+datai3d/
