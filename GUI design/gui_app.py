@@ -4,6 +4,7 @@ from with_text_and_if import main_app
 import tkinter as tk
 from tkinter import font as tkfont
 from tkinter import messagebox,PhotoImage
+from PIL import Image, ImageTk
 #from PIL import ImageTk, Image
 #from gender_prediction import emotion,ageAndgender
 names = set()
@@ -21,23 +22,24 @@ class MainUI(tk.Tk):
             for i in z:
                 i = i.rstrip().split(",")[0] #choose the names of the camara and not the source, [1] is the source
                 names.add(i)
-        self.title_font = tkfont.Font(family='Helvetica', size=16, weight="bold")
+        #self.title_font = tkfont.Font(family='Helvetica', size=16, weight="bold")
         self.title("Violence Detection")
         self.resizable(False, False)
-        self.geometry("500x250")
+        self.geometry("400x300")
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.active_name = None
         container = tk.Frame(self)
         container.grid(sticky="nsew")
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
+        container.grid_rowconfigure([0,1,2,3], minsize=50)
+        container.grid_columnconfigure([0,1,2,3], minsize=50)
+
         self.frames = {}
-        for F in (StartPage, PageOne, PageTwo, PageFour):
+        for F in (StartPage, QuitConfirmation, PageOne, PageTwo, PageFour):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
             frame.grid(row=0, column=0, sticky="nsew")
-        self.show_frame("StartPage")
+        self.show_frame("PageTwo")
 
     def show_frame(self, page_name):
             frame = self.frames[page_name]
@@ -53,7 +55,7 @@ class MainUI(tk.Tk):
             self.destroy()
 
 
-class StartPage(tk.Frame):
+class QuitConfirmation(tk.Frame):
 
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
@@ -64,23 +66,39 @@ class StartPage(tk.Frame):
             img = tk.Label(self, image=render)
             img.image = render
             img.grid(row=0, column=1, rowspan=4, sticky="nsew")
-            label = tk.Label(self, text="        Home Page        ", font=self.controller.title_font,fg="#263942")
+            label = tk.Label(self, text="        Home Page        ",fg="#263942")
             label.grid(row=0, sticky="ew")
-            button1 = tk.Button(self, text="   Add a User  ", fg="#ffffff", bg="#263942",command=lambda: self.controller.show_frame("PageOne"))
-            button2 = tk.Button(self, text="   Check a User  ", fg="#ffffff", bg="#263942",command=lambda: self.controller.show_frame("PageTwo"))
-            button3 = tk.Button(self, text="Quit", fg="#263942", bg="#ffffff", command=self.on_closing)
-            button1.grid(row=1, column=0, ipady=3, ipadx=7)
-            button2.grid(row=2, column=0, ipady=3, ipadx=2)
+         #   button1 = tk.Button(self, text="   Add a User  ", fg="#ffffff", bg="#263942",command=lambda: self.controller.show_frame("PageOne"))
+          #  button2 = tk.Button(self, text="   Check a User  ", fg="#ffffff", bg="#263942",command=lambda: self.controller.show_frame("PageTwo"))
+            button3 = tk.Button(self, text="Quit", fg="#263942", bg="#ffffff", command=lambda: self.controller.show_frame("StartPage"))
+          #  button1.grid(row=1, column=0, ipady=3, ipadx=7)
+           # button2.grid(row=2, column=0, ipady=3, ipadx=2)
             button3.grid(row=3, column=0, ipady=3, ipadx=32)
 
+class StartPage(tk.Frame):
 
+        def __init__(self, parent, controller):
+            tk.Frame.__init__(self, parent)
+            self.controller = controller
+            #load = Image.open("homepagepic.png")
+            #load = load.resize((250, 250), Image.ANTIALIAS)
+            v = Image.open('homepagepic.png')
+            v = v.resize((40, 40), Image.ANTIALIAS)
+            render = ImageTk.PhotoImage(v)
+            img = tk.Label(self, image=render)
+            img.image = render
+            img.place(relx=0.06, rely=0.1)
+            label = tk.Label(self, text="Are you sure you\nwant to quit?",fg="#263942")
+            label.configure(font='-size 12 -weight bold')
+            label.place(relx=0.18, rely=0.1)
+            button1 = tk.Button(self, text="Confirm", fg="#ffffff", bg="#263942",command=lambda: self.controller.show_frame("PageOne"))
+            button2 = tk.Button(self, text="Cancel", bg="#ffffff", fg="#263942",command=lambda: self.controller.show_frame("PageTwo"))
+            button1.place(relx=0.33, rely=0.35)
+            button2.place(relx=0.12, rely=0.35)
+            #button1.grid(row=3, column=3, ipady=5)
+            #button2.grid(row=3, column=2, ipady=5, ipadx=4)
         def on_closing(self):
-            if messagebox.askokcancel("Quit", "Are you sure?"):
-                global names
-                with open("nameslist.txt", "w") as f:
-                    for i in names:
-                        f.write(i + " ")
-                self.controller.destroy()
+            self.controller.destroy()
 
 
 class PageOne(tk.Frame):
@@ -118,10 +136,10 @@ class PageTwo(tk.Frame):
         tk.Frame.__init__(self, parent)
         global names
         self.controller = controller
-        tk.Label(self, text="Select source", fg="#263942", font='Helvetica 12 bold').grid(row=0, column=0, padx=10, pady=10)
-        tk.Label(self, text="Select source", fg="#263942", font='Helvetica 12 bold').grid(row=1, column=0, padx=10, pady=10)
-        tk.Label(self, text="Select source", fg="#263942", font='Helvetica 12 bold').grid(row=2, column=0, padx=10, pady=10)
-        tk.Label(self, text="Select source", fg="#263942", font='Helvetica 12 bold').grid(row=3, column=0, padx=10, pady=10)
+        tk.Label(self, text="Select source", fg="#263942").grid(row=0, column=0, padx=10, pady=10)
+        tk.Label(self, text="Select source", fg="#263942").grid(row=1, column=0, padx=10, pady=10)
+        tk.Label(self, text="Select source", fg="#263942").grid(row=2, column=0, padx=10, pady=10)
+        tk.Label(self, text="Select source", fg="#263942").grid(row=3, column=0, padx=10, pady=10)
         self.buttoncanc = tk.Button(self, text="Cancel", command=lambda: controller.show_frame("StartPage"), bg="#ffffff", fg="#263942")
         self.menuvar1 = tk.StringVar(self)
         self.menuvar2 = tk.StringVar(self)
