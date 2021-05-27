@@ -36,14 +36,14 @@ def get_dimension(img):
         new_width = SMALLEST_DIM
         new_height = int(original_width / aspect_ratio)
 
-    dim = (new_width, new_height)
+    dim = (new_height, new_width)
 
     return dim
 
 # the videos are resized preserving aspect ratio so that the smallest dimension is 256 pixels, with bilinear interpolation
 def resize(img, dim):
     # resize image
-    resized = cv2.resize(img, dim, interpolation=cv2.INTER_LINEAR)
+    resized = cv2.resize(img, (dim[1], dim[0]), interpolation=cv2.INTER_LINEAR)
     # print('Resized Dimensions : ', resized.shape)
 
     return resized
@@ -75,18 +75,18 @@ def run_rgb(sorted_list_frames, train, dim):
 
     # Dimensions to initialise the np array
     if train:
-        img_width = dim[0]
-        img_height = dim[1]
+        img_width = dim[1]
+        img_height = dim[0]
     else:
         img_width = IMAGE_CROP_SIZE
         img_height = IMAGE_CROP_SIZE
-    result = np.zeros((1, img_width, img_height, 3))
+    result = np.zeros((1, img_height, img_width, 3))
 
     # Process image by image and append
     for full_file_path in sorted_list_frames:
         img = cv2.imread(full_file_path, cv2.IMREAD_UNCHANGED)
         img = pre_process_rgb(img, train, dim)
-        new_img = np.reshape(img, (1, img_width, img_height, 3))
+        new_img = np.reshape(img, (1, img_height, img_width, 3))
         result = np.append(result, new_img, axis=0)
 
     result = result[1:, :, :, :]
@@ -127,12 +127,12 @@ def run_flow(sorted_list_frames, train, dim):
 
     # Dimensions to initialise the np array
     if train:
-        img_width = dim[0]
-        img_height = dim[1]
+        img_width = dim[1]
+        img_height = dim[0]
     else:
         img_width = IMAGE_CROP_SIZE
         img_height = IMAGE_CROP_SIZE
-    result = np.zeros((1, img_width, img_height, 2))
+    result = np.zeros((1, img_height, img_width, 2))
 
     # Process pair of images and append
     prev = sorted_list_img[0]

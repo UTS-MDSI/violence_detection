@@ -11,6 +11,7 @@ class DataGenerator(Sequence):
         directory: the path of data set, and each sub-folder will be assigned to one class
         batch_size: the number of data points in each batch
         shuffle: whether to shuffle the data per epoch
+        shape: (height, width)
     Note:
         If you want to load file with other data format, please fix the method of "load_data" as you want
     """
@@ -92,12 +93,12 @@ class DataGenerator(Sequence):
     
     def dynamic_crop(self, video):
         video_dim = video.shape
-        video_width = video_dim[2]
-        video_height = video_dim[3]
+        video_width = video_dim[3]
+        video_height = video_dim[2]
         
         if self.data_aug:
-            x_max = video_width - self.crop_dim[0]
-            y_max = video_height - self.crop_dim[1]
+            x_max = video_width - self.crop_dim[1]
+            y_max = video_height - self.crop_dim[0]
 
             x = random.randint(0, x_max)
             y = random.randint(0, y_max)
@@ -106,10 +107,10 @@ class DataGenerator(Sequence):
             x_center = math.ceil(video_width/2)
             y_center = math.ceil(video_height/2)
             
-            x = x_center - math.ceil(self.crop_dim[0]/2)
-            y = y_center - math.ceil(self.crop_dim[1]/2)
+            x = x_center - math.ceil(self.crop_dim[1]/2)
+            y = y_center - math.ceil(self.crop_dim[0]/2)
                         
-        return video[:,:,x:x+self.crop_dim[0],y:y+self.crop_dim[1],:]
+        return video[:,:,x:x+self.crop_dim[1],y:y+self.crop_dim[0],:]
         
     
     def frame_sampling(self, video):
