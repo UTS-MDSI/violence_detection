@@ -10,6 +10,7 @@
 *.xml
 *.iml
 *.json
+*.npy
 
 # Specific folders
 Login/.vscode/
