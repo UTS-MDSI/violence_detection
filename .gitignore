@@ -9,7 +9,6 @@
 # Other extensions
 *.xml
 *.iml
-*.json
 *.npy
 
 # Specific folders
@@ -19,5 +18,5 @@ Login/data/
 Streaming/.vscode/
 .ipynb_checkpoints/
 __pycache__/
-data/
-datai3d/
+/data/
+/datai3d/
