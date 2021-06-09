@@ -260,7 +260,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--temp_path', type=str, default="../frames/")
     parser.add_argument('--type', type=str, default='file')
-    parser.add_argument('--input_path', type=str, default = '../data/input_videos/cricket.avi')
+    parser.add_argument('--input_path', type=str, default = '../data_storage/input_videos/cricket.avi')
     parser.add_argument('--output_path', type=str, default="../datai3d/")
     parser.add_argument('--preprocess', type=str, default='rgb')
     parser.add_argument('--train' , type=str2bool, nargs='?',

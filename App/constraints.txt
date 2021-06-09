@@ -1,7 +1,11 @@
-certifi==2021.5.30
+bcrypt==3.2.0
+cffi==1.14.5
 numpy==1.20.3
 opencv-contrib-python==4.2.0.34
 opencv-python==4.2.0.34
 pafy==0.5.5
 Pillow==8.2.0
+psycopg2-binary==2.8.6
+pycparser==2.20
+six==1.16.0
 youtube-dl==2021.5.16

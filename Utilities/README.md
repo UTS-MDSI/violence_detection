@@ -37,7 +37,7 @@ Using default other values:
 python SplitData.py --data_directory {} --ratio {} --seed {}
 
 #Example
-python SplitData.py --data_directory user/data/tmp --ratio 0.3 --seed 10
+python SplitData.py --data_directory user/data_storage/tmp --ratio 0.3 --seed 10
 ```
 
 ## Result
@@ -92,7 +92,7 @@ temp_path: Path where the temporal files will be stored. Default: `../frames/`
 
 type: It indicates if the input_path is just a single video [`file`] or a folder with multiple videos [`folder`]. Default: `file`
 
-input_path: Path of the video file or folder with multiple videos. Default: `../data/input_videos/cricket.avi`
+input_path: Path of the video file or folder with multiple videos. Default: `../data_storage/input_videos/cricket.avi`
 
 output_path: Path where the rgb or flow files will be stored (.npy files). Default: `../datai3d/`
 
@@ -112,12 +112,12 @@ python i3dpreprocess.py
 
 Using other parameters:
 ```
-python i3dpreprocess.py --temp_path ../temp/ --type file --input_path ../data/train/Fight/ --output_path ../datai3d/rgb/train/Fight --preprocess rgb
+python i3dpreprocess.py --temp_path ../temp/ --type file --input_path ../data_storage/train/Fight/ --output_path ../datai3d/rgb/train/Fight --preprocess rgb
 ```
 
 ### Folder with multiple videos
 
 Using other parameters:
 ```
-python i3dpreprocess.py --temp_path ../temp/ --type folder --input_path ../data/train/Fight/ --output_path ../datai3d/rgb/train/Fight --preprocess flow
+python i3dpreprocess.py --temp_path ../temp/ --type folder --input_path ../data_storage/train/Fight/ --output_path ../datai3d/rgb/train/Fight --preprocess flow
 ```

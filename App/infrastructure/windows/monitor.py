@@ -24,7 +24,7 @@ class Monitor:
 		self.monitor.columnconfigure([0,1], minsize=screen_width/2.107)
 		self.monitor.rowconfigure([0,1,2], minsize=screen_height/3)
 
-		with open('data/user_inputs/user_cameras_selection.json', 'r') as f:
+		with open('data_storage/user_inputs/user_cameras_selection.json', 'r') as f:
 			user_sel = json.load(f)
 		f.close()
 
@@ -58,14 +58,14 @@ class Monitor:
 		self.label.grid(row=2, column=0, sticky='nw', padx=15, pady=18)
 
 		self.btn_quit = tk.Button(self.monitor, text='Quit the App', 
-                             fg='#263942', bg='#ffffff',
-                             command=self.on_closing)
+								  fg='#263942', bg='#ffffff',
+								  command=self.on_closing)
 		self.btn_quit.configure(font='-size 10')
 		self.btn_quit.place(relx=0.891, rely=bx, height=bheight, width=bwidth)
 
 		self.btn_backlogin = tk.Button(self.monitor, text='Back to Login', 
-                             fg='#263942', bg='#ffffff',
-                             command=self.restore_window)
+                            		   fg='#263942', bg='#ffffff',
+                             		   command=self.restore_window)
 		self.btn_backlogin.configure(font='-size 10')
 		self.btn_backlogin.place(relx=0.786, rely=bx, height=bheight, width=bwidth)
 
@@ -84,6 +84,6 @@ class Monitor:
 		
 		print('[App] stopping threads')
 		for source in self.vids:
-			source.vid.running = False #>stop thread, stop reading the video
+			source.vid.running = False
 		print('[App] exit')
 		self.monitor.destroy()

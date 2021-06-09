@@ -5,15 +5,18 @@ from PIL import Image, ImageTk
 
 from infrastructure.windows.monitor import Monitor
 from infrastructure.windows.new_user import NewUser
+from infrastructure.windows.cameras_selection import CamerasSelection
 from infrastructure.windows.reset_password import ResetPassword
 from infrastructure.windows.quit_confirmation import QuitConfirmation
 
+from infrastructure.entities.database_records import validate_credentials
+
 
 def blue_text(event):
-    event.widget.config(fg = 'blue')
+    event.widget.config(fg = 'blue', font = '-size 8')
 
 def black_text(event):
-    event.widget.config(fg = '#263942', font = '-size 9')
+    event.widget.config(fg = '#263942', font = '-size 8')
 
 class Login:
     
@@ -38,7 +41,7 @@ class Login:
         self.frame.grid_columnconfigure(0, weight=1)
 
         ### Load home image
-        v = Image.open('data/icons/home.png')
+        v = Image.open('data_storage/icons/home.png')
         v = v.resize((300, 300), Image.ANTIALIAS)
         render = ImageTk.PhotoImage(v)
 
@@ -80,7 +83,6 @@ class Login:
         self.label_pass = tk.Label(self.frame,
                                    text='Password', 
                                    fg='#263942')
-        #self.label_pass.place(relx=0.075, rely=0.45, height=31)
         self.label_pass.place(relx=0.075, rely=0.49, height=31)
         self.label_pass.configure(font='-size 12')
 
@@ -90,7 +92,6 @@ class Login:
                                    show='*', 
                                    relie=tk.FLAT, 
                                    textvariable=self.passwords)
-        #self.entry_pass.place(relx=0.075, rely=0.52, height=31, width=250)
         self.entry_pass.place(relx=0.075, rely=0.56, height=31, width=250)
 
         ### Cameras button
@@ -98,7 +99,8 @@ class Login:
                                       text = 'Select Cameras',
                                       fg='#ffffff', 
                                       bg='#263942',
-                                      command= lambda: self.new_window(Monitor, "Monitor"))
+                                      command= lambda: self.new_window(CamerasSelection, 
+                                                                       "CamerasSelection"))
         self.cameras.place(relx=0.075, rely=0.69, height=31, width=120)
 
         ### Login button
@@ -106,17 +108,16 @@ class Login:
                                       text = 'Start Detecting',
                                       fg='#ffffff', 
                                       bg='#263942',
-                                      command= lambda: self.new_window(Monitor, "Monitor"))
+                                      command=self.verify_user)
         self.button_login.place(relx=0.236, rely=0.69, height=31, width=120)
-        #self.button_login.place(relx=0.075, rely=0.76, height=29, width=250)
 
         ### Quit button
         self.quit = tk.Button(self.frame, 
                               text = 'Safe Quit',
                               fg='#263942', 
                               bg='#ffffff',
-                              command= lambda: self.new_window(QuitConfirmation, "QuitConfirmation"))
-        #self.quit.place(relx=0.075, rely=0.74, height=31, width=120)
+                              command=lambda: self.new_window(QuitConfirmation,
+                                                              "QuitConfirmation"))
         self.quit.place(relx=0.837, rely=0.917, height=31, width=120)
 
         ### Forgot password button
@@ -124,22 +125,24 @@ class Login:
                                      text='Forgot password?',
                                      fg='#263942')
         self.label_forgot.configure(font='-size 8')
-        #self.label_forgot.place(relx=0.075, rely=0.59)
         self.label_forgot.place(relx=0.075, rely=0.63)
         self.label_forgot.bind("<Enter>", blue_text)
         self.label_forgot.bind("<Leave>", black_text)
-        self.label_forgot.bind('<Button-1>', lambda event: self.new_window(ResetPassword, "ResetPassword"))
+        self.label_forgot.bind('<Button-1>', 
+                               lambda event: self.new_window(ResetPassword, 
+                                                             "ResetPassword"))
         
         ### Request access button
         self.label_access = tk.Label(self.frame,
                                      text = 'Not registered? Request access here', 
                                      fg='#263942')
-        #self.label_access.place(relx=0.693, rely=0.933, height=21, width=250)
         self.label_access.place(relx=0.075, rely=0.44)
         self.label_access.configure(font='-size 8')
         self.label_access.bind("<Enter>", blue_text)
         self.label_access.bind("<Leave>", black_text)
-        self.label_access.bind("<Button-1>", lambda event: self.new_window(NewUser, "NewUser"))
+        self.label_access.bind("<Button-1>", 
+                               lambda event: self.new_window(NewUser, 
+                                                             "NewUser"))
 
         ### Company label
         self.clabel = tk.Label(self.frame,
@@ -151,10 +154,21 @@ class Login:
         ### User outcome
         self.label_outcome = tk.Label(self.frame, 
                                       text = '')
-        self.label_outcome.place(relx=0.117, rely=0.833)#, height=31, width=334)
+        self.label_outcome.place(relx=0.075, rely=0.775)
         self.label_outcome.configure(font="-size 9 -weight bold")
 
     def new_window(self, _class, number):
         self.new = tk.Toplevel(self.login)
         self.login.withdraw()
         _class(self.new, number)
+
+    def verify_user(self):
+        # Restart outcome
+        self.label_outcome.config(text='', fg="#263942")
+        # Validate user and password
+        msg, outcome = validate_credentials(self.usernames.get(), self.passwords.get())
+        self.label_outcome.config(text=msg)
+        if outcome:
+            self.new_window(Monitor, "Monitor")
+        else:
+            pass

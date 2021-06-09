@@ -49,8 +49,6 @@ class VideoCapture:
 
         ### Start an independent thread for each sourced video
         self.running = True
-        self.detecting = True
-        self.detection = False
         self.thread = threading.Thread(target=self.process) #>target contains the func
                                                             #>that handles each thread
                                                             #>(func without parenthesis)
@@ -76,24 +74,6 @@ class VideoCapture:
             if ret:
                 frame = cv2.resize(frame, (self.width, self.height)) #>frame is the video
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #>frame is the video           
-
-                #### Add alarm signboard
-                if ((self.detecting) and
-                    (self.video_source[:4] != 'data') and
-                    (self.detection)):
-
-                    signboard = 'Alarm: Violence Detected'
-                    snap_time = time.strftime('%Y/%m/%d %H:%M:%S')
-                    cv2.putText(frame, signboard, #>text
-                                (15, 30), #>position
-                                cv2.FONT_HERSHEY_DUPLEX, 0.85, #>font
-                                (255, 0, 0), 1) #colour, thickness
-                    cv2.putText(frame, snap_time, #>text
-                                (15, 50), #>position
-                                cv2.FONT_HERSHEY_DUPLEX, 0.55, #>font
-                                (255, 0, 0), 1) #colour, thickness
-                else:
-                    pass
 
             ### Otherwise, break
             else:

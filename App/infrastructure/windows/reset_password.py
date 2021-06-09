@@ -4,6 +4,8 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 
+from infrastructure.entities.database_records import retrieve_password
+
 class ResetPassword:
 
     def __init__(self, reset_password, number):
@@ -28,7 +30,7 @@ class ResetPassword:
         self.frame.grid_columnconfigure(0, weight=1)
 
         ### Load home image
-        v = Image.open('data/icons/home.png')
+        v = Image.open('data_storage/icons/home.png')
         v = v.resize((40, 40), Image.ANTIALIAS)
         render = ImageTk.PhotoImage(v)
 
@@ -51,10 +53,10 @@ class ResetPassword:
         self.label_email.configure(font='-size 12')
 
         # Email entry
-        self.emails = tk.StringVar()
+        self.emailS = tk.StringVar()
         self.entry_email = tk.Entry(self.frame, 
                                     relie = tk.FLAT, 
-                                    textvariable = self.emails)
+                                    textvariable=self.emailS)
         self.entry_email.place(relx=0.5, rely=0.34, height=25, width=170)
 
         # Recover button
@@ -82,6 +84,7 @@ class ResetPassword:
     
     def recover(self):
         msg = "Request received\n\nIf the email is in our system,\nwe will send you a new password"
+        retrieve_password(self.emailS.get())
         self.clear_page()
         self.label_outcome.config(text = msg)
 

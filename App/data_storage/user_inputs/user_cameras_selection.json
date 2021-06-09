@@ -1,18 +1,18 @@
 {
-"one": {
-    "name": "St. George Square: Off", 
-    "source": "data/church.mp4"
-    }, 
-"two": {
-    "name": "Maiden Lane: Off", 
-    "source": "data/street.mp4"
-    }, 
-"three": {
-    "name": "Lexington Avenue: Off", 
-    "source": "data/snow.mp4"
-    }, 
-"four": {
-    "name": "52nd Street: On", 
-    "source": "https://www.youtube.com/watch?v=74w0vAKyBlo"
+    "one": {
+        "name": "Maiden Lane",
+        "source": "data_storage/street.mp4"
+    },
+    "two": {
+        "name": "75th Avenue",
+        "source": "https://youtu.be/eznpzqlZMYk"
+    },
+    "three": {
+        "name": "St. George Square",
+        "source": "data_storage/church.mp4"
+    },
+    "four": {
+        "name": "Lexington Avenue",
+        "source": "data_storage/snow.mp4"
     }
 }
