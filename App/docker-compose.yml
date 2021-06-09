@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+    postgres:
+        image: postgres:11
+        restart: always
+        container_name: postgres_violence_detection
+        environment:
+            - POSTGRES_USER=admin
+            - POSTGRES_PASSWORD=admin
+            - POSTGRES_DB=violence_detection
+        volumes:
+            - ./data:/var/lib/postgresql/data
+        ports:
+            - 5432:5432
+    violence_detection:
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        env_file:
+            - .env
+        depends_on:
+            - postgres
+        command: >
+            sh -c "make launch_app"
