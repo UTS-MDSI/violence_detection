@@ -14,9 +14,9 @@
 # Specific folders
 Login/.vscode/
 Login/__pycache__/
-Login/data/
+Login/data_storage/
 Streaming/.vscode/
 .ipynb_checkpoints/
 __pycache__/
-/data/
+/data_storage/
 /datai3d/

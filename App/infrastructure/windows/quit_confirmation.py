@@ -27,7 +27,7 @@ class QuitConfirmation:
         self.frame.grid_rowconfigure(0, weight=1)
         self.frame.grid_columnconfigure(0, weight=1)
 
-        v = Image.open('data/icons/home.png')
+        v = Image.open('data_storage/icons/home.png')
         v = v.resize((40, 40), Image.ANTIALIAS)
         render = ImageTk.PhotoImage(v)
         img = tk.Label(self.quit_confirmation, 

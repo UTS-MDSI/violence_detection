@@ -1,21 +1,29 @@
 """class VideoFrame"""
 
 # Import required packages
-from threading import current_thread
+import json
 import time
+import requests
 import tkinter as tk
 import PIL.Image, PIL.ImageTk
 
 # Import classes
 from infrastructure.entities.video_capture import VideoCapture
-from infrastructure.entities.video_signboard import VideoSignboard
+from infrastructure.entities.api_connection import APIConnection
+
+api_url = "http://34.127.43.192:5000/ViolenceDetection/LogsDetections"
 
 # Class for each tkinter frame in the window grid
 class VideoFrame(tk.Frame):
 
 
     ## Initialisation
-    def __init__(self, window, name="", video_source=0, width=None, height=None):
+    def __init__(self, 
+                 window,
+                 name="",
+                 video_source=0,
+                 width=None,
+                 height=None):
 
         """
         Initialise the tkinter frame for each video in the grid
@@ -36,8 +44,11 @@ class VideoFrame(tk.Frame):
         ### Default stream state set to running while window is open
         self.running = True
 
-        ### Default detection set to false
-        self.detecting = False
+        ### Default detection set to "On"
+        if self.video_source[:4] == "http":
+            self.detecting = "Detections On"            
+        else:
+            self.detecting = "Blocked"
 
         ### Load VideoCapture with an independent thread for each sourced video
         self.vid = VideoCapture(self.video_source,
@@ -45,12 +56,14 @@ class VideoFrame(tk.Frame):
                                 height)
 
         ### Load violence detection response from API
-        self.api = VideoSignboard(self.video_source,  self.vid,
-                                  self.vid.running)
+        self.api = APIConnection(self.video_source, 
+                                 self.vid,
+                                 self)
 
         ### Camera name label
-        text_detecting = "Detections On" if self.detecting else "Detections Off"
-        self.label = tk.Label(self, text=name, fg='#263942')
+        self.label = tk.Label(self, 
+                              text=self.name + ": " + self.detecting, 
+                              fg='#263942')
         self.label.configure(font='-size 12 -weight bold')
         self.label.pack(pady=4) #>organises widgets in blocks prior placing
                                 #>it in the parent widget
@@ -77,7 +90,7 @@ class VideoFrame(tk.Frame):
         #### Logs button
         self.btn_logs = tk.Button(self, text='Save Logs', 
                                   bg='#263942', fg='#ffffff',
-                                  command=self.snapshot) #>command contains the 
+                                  command=self.logs) #>command contains the 
                                                          #> func to be run
                                                          #> by this button 
         self.btn_logs.pack(anchor='center', side='right', padx=2, pady=3)
@@ -109,9 +122,12 @@ class VideoFrame(tk.Frame):
         Set detecting to True, so the App receives violence
         predictions and displays the alarm signboard
         """
-
-        if not self.detecting:
-            self.detecting = True
+        if self.video_source[:4] == "http":
+            self.detecting = "Detections On"
+            print("[StartDetection] turn on:", self.detecting) 
+        
+        else:
+            print("[StartDetection] blocked: only detections on YouTube videos allowed")
 
     ## Function assigned to the stop detection button
     def stop(self):
@@ -121,9 +137,18 @@ class VideoFrame(tk.Frame):
         violence predictions nor displays the alarm signboard
         """
 
-        if self.detecting:
-           self.detecting = False
+        if self.video_source[:4] == "http":
+            self.detecting = "Detections Off"
+            print("[StopDetection] turn off:", self.detecting) 
+        
+        else:
+            print("[StopDetection] blocked: only detections on YouTube videos allowed")
     
+
+    def is_detecting(self):
+
+        return True if self.detecting == "Detections On" else False
+
 
     ## Function assigned to the snapshot button
     def snapshot(self):
@@ -133,12 +158,38 @@ class VideoFrame(tk.Frame):
         """
 
         ### Set folder and file to save the snapshots
-        folder_snap = 'data/snapshots/'
+        folder_snap = 'data_storage/snapshots/'
         file_snap = time.strftime(f'%Y.%m.%d %H.%M.%S {self.name}.jpg')
 
         ### Save current frame as .jpg image
         if self.image:
             self.image.save(folder_snap + file_snap)
+            print("[SaveSnapshot] saving: successful", self.name) 
+
+    ## Function assigned to the logs button
+    def logs(self):
+        
+        """
+        Save session logs in widget named as per the current time
+        """
+        if self.video_source[:4] == "http":
+            ### Set folder and file to save the snapshots
+            folder_logs = 'data_storage/logs/'
+            file_logs = time.strftime(f'%Y.%m.%d %H.%M.%S {self.name}.json')
+
+            ### Get logs
+            response = requests.get(api_url)
+            logs = json.loads(response.text)
+
+            ### Save logs
+            with open(folder_logs + file_logs, 'w') as f:
+                json.dump(logs, f, indent = 4)
+            f.close()
+
+            print("[SaveLogs] saving: successful", self.name) 
+
+        else:
+            print("[SaveLogs] blocked: only detections on YouTube videos allowed")
             
 
     ## Update the frame from the video source each delay milliseconds
@@ -152,6 +203,8 @@ class VideoFrame(tk.Frame):
         ret, frame = self.vid.get_frame()
         detection = self.api.detection
 
+        self.label["text"] = self.name + ": " + self.detecting
+
         if ret: #>ret is True if vid truly contains a video to work with
 
             signboard = 'Alarm: Violence Detected'
@@ -163,11 +216,11 @@ class VideoFrame(tk.Frame):
                                      image=self.photo, #>PhotoImage object
                                      anchor='nw') #>northwest alignment
 
-            if detection:
-                self.canvas.create_text(183, 20, #>position to show the text
+            if detection and (self.detecting=="Detections On"):
+                self.canvas.create_text(173, 25, #>position to show the text
                                         fill="red",font="Helvetica 20 bold",
                                         text=signboard)
-                self.canvas.create_text(123, 40, #>position to show the text
+                self.canvas.create_text(113, 45, #>position to show the text
                                         fill="red",font="Helvetica 16 bold",
                                         text=snap_time)
         

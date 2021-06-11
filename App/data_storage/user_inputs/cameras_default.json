@@ -1,0 +1,18 @@
+{
+    "one": {
+        "name": "75th Avenue", 
+        "source": "https://youtu.be/eznpzqlZMYk"
+    }, 
+    "two": {
+        "name": "Maiden Lane", 
+        "source": "data_storage/street.mp4"
+    }, 
+    "three": {
+        "name": "Lexington Avenue", 
+        "source": "data_storage/snow.mp4"
+    }, 
+    "four": {
+        "name": "St. George Square",
+        "source": "data_storage/church.mp4"
+    }
+}
