@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+    postgres:
+        image: postgres:latest
+        restart: always
+        container_name: postgres_violence_detection
+        environment:
+            - POSTGRES_USER=admin
+            - POSTGRES_PASSWORD=admin
+            - POSTGRES_DB=violence_detection
+        ports:
+            - 5432:5432

@@ -1,0 +1,17 @@
+"""Files to be ignored - Git Flow"""
+
+# Compiled Python bytecode
+*.py[cod]
+
+# Log files
+*.log
+
+# Other extensions
+*.xml
+*.iml
+*.npy
+
+# Specific folders
+.ipynb_checkpoints/
+__pycache__/
+/datai3d/
