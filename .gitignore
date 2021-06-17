@@ -12,11 +12,6 @@
 *.npy
 
 # Specific folders
-Login/.vscode/
-Login/__pycache__/
-Login/data_storage/
-Streaming/.vscode/
 .ipynb_checkpoints/
 __pycache__/
-/data_storage/
 /datai3d/

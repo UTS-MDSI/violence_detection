@@ -1,4 +1,0 @@
-ffmpeg -re -i assault.mp4 -an -c:v copy -f rtp -sdp_file assault.sdp "rtp://127.0.0.1:5004"
-ffmpeg -re -i fight.mp4 -an -c:v copy -f rtp -sdp_file fight.sdp "rtp://127.0.0.1:5020"
-ffmpeg -re -i snow.mp4 -an -c:v copy -f rtp -sdp_file snow.sdp "rtp://127.0.0.1:5040"
-ffmpeg -re -i street.mp4 -an -c:v copy -f rtp -sdp_file street.sdp "rtp://127.0.0.1:5060"
