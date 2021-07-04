@@ -2,21 +2,20 @@
 
 # Import required packages
 import time
-import json
 import threading
 import requests
 
-api_url = "http://34.127.43.192:5000/ViolenceDetection/CurrentDetection"
-api_url_put = "http://34.127.43.192:5000/ViolenceDetection/UpdateFrame"
+api_url_detect = "/ViolenceDetection/Predict"
 
 # Class for each sourced video
 class APIConnection:
 
     ## Initialisation
-    def __init__(self, video_source, vid, detecting):      
+    def __init__(self, video_source, ip, vid, detecting):      
 
         self.detection = False
         self.video_source = video_source
+        self.ip = ip
         self.vid = vid
         self.detecting = detecting
         self.thread = threading.Thread(target=self.api_connection)
@@ -31,11 +30,10 @@ class APIConnection:
 
                 if detecting:
                     current_frame = self.vid.get_current_frame()
-                    requests.put(f"{api_url_put}/{current_frame}")
-                    print("[UpdateFrame] frame:", current_frame)  
-                    response = requests.get(api_url)
-                    self.detection = json.loads(response.text)["Violence?"]
-                    print("[GetDetection] detection:", self.video_source, self.detection)    
+                    response = requests.put(f"{self.ip}{api_url_detect}/{current_frame}")
+                    print("[GenerateDetection] frame:", current_frame)
+                    self.detection = True if response.text == "1" else False
+                    print("[GenerateDetection] detection:", self.video_source, self.detection)    
 
             ### Otherwise, break
             else:

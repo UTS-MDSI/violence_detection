@@ -122,7 +122,7 @@ class CamerasSelection:
 
         print("[DefaultCameras] set default cameras: successful")
         print("[DefaultCameras] camera one:", default["one"]["name"])
-        print("[DefaultCameras] camera two:", default["two"]["name"]) 
+        print("[DefaultCameras] camera two:", default["two"]["name"])
         print("[DefaultCameras] camera three:", default["three"]["name"]) 
         print("[DefaultCameras] camera four:", default["four"]["name"])
 
@@ -131,29 +131,30 @@ class CamerasSelection:
 
     def save_selection(self):
 
-        with open(user_selection_default, 'r') as f:
-            default = json.load(f)
-        f.close()
+        selection = {"one": {}, "two": {}, "three": {}, "four": {}}
+        menuvars = [self.menuvar1.get(),
+                    self.menuvar2.get(),
+                    self.menuvar3.get(),
+                    self.menuvar4.get()]
 
-        default["one"]["name"] = self.menuvar1.get()
-        default["two"]["name"] = self.menuvar2.get()
-        default["three"]["name"] = self.menuvar3.get()
-        default["four"]["name"] = self.menuvar4.get()
+        for key, menuvar  in zip(selection.keys(), menuvars):
 
-        default["one"]["source"] = user_sel[self.menuvar1.get()]
-        default["two"]["source"] = user_sel[self.menuvar2.get()]
-        default["three"]["source"] = user_sel[self.menuvar3.get()]
-        default["four"]["source"] = user_sel[self.menuvar4.get()]
+            selection[key]["name"] = menuvar
+            selection[key]["url"] = user_sel[menuvar]["url"]
+            selection[key]["delay"] = user_sel[menuvar]["delay"]
+            selection[key]["frames"] = user_sel[menuvar]["frames"]
+            selection[key]["threshold"] = user_sel[menuvar]["threshold"]
+            selection[key]["ip"] = user_sel[menuvar]["ip"]
 
         with open(user_selection_main, 'w') as f:
-            json.dump(default, f, indent = 4)
+            json.dump(selection, f, indent = 4)
         f.close()
 
         print("[SelectCameras] save cameras selection: successful")
-        print("[SelectCameras] camera one:", default["one"]["name"])
-        print("[SelectCameras] camera two:", default["two"]["name"]) 
-        print("[SelectCameras] camera three:", default["three"]["name"]) 
-        print("[SelectCameras] camera four:", default["four"]["name"])
+        print("[SelectCameras] camera one:", selection["one"]["name"])
+        print("[SelectCameras] camera two:", selection["two"]["name"])
+        print("[SelectCameras] camera three:", selection["three"]["name"]) 
+        print("[SelectCameras] camera four:", selection["four"]["name"])
 
         self.cameras_selection.master.deiconify()
         self.cameras_selection.destroy()

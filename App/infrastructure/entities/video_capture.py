@@ -78,8 +78,7 @@ class VideoCapture:
             ### Otherwise, break
             else:
                 print('[VideoCapture] stream end:', self.video_source)
-                self.running = False
-                break
+                self.vid.set(cv2.CAP_PROP_POS_FRAMES, 1)
                 
             ### Reassign the frame with the processed video
             self.ret = ret #>ret is True if vid contains a video to work with

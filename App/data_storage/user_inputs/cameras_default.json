@@ -1,18 +1,34 @@
 {
     "one": {
         "name": "75th Avenue", 
-        "source": "https://youtu.be/eznpzqlZMYk"
+        "url": "https://youtu.be/eznpzqlZMYk",
+        "delay": 0,
+        "frames": 90,
+        "threshold": 75,
+        "ip": "http://34.75.143.92:5000"
     }, 
     "two": {
-        "name": "Maiden Lane", 
-        "source": "data_storage/street.mp4"
+        "name": "Maiden Lane",
+        "url": "data_storage/street.mp4",
+        "delay": 0,
+        "frames": 90,
+        "threshold": 75,
+        "ip": ""
     }, 
     "three": {
-        "name": "Lexington Avenue", 
-        "source": "data_storage/snow.mp4"
+        "name": "St. George Avenue",
+        "url": "https://www.youtube.com/watch?v=mlN1cX8jdKE",
+        "delay": 0,
+        "frames": 90,
+        "threshold": 75,
+        "ip": "http://34.139.149.224:5000"
     }, 
     "four": {
-        "name": "St. George Square",
-        "source": "data_storage/church.mp4"
+        "name": "Main Office",
+        "url": "https://www.youtube.com/watch?v=-9vsUJ6w2n0",
+        "delay": 0,
+        "frames": 90,
+        "threshold": 75,
+        "ip": "http://34.132.255.16:5000"
     }
 }

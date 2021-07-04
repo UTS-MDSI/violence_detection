@@ -7,7 +7,7 @@ import bcrypt
 
 # Connecting to db
 conn = psycopg2.connect("host=localhost dbname=violence_detection user=admin password=admin")
-
+ 
 # Creating cursor to create schema and user table
 cur = conn.cursor()
 cur.execute("CREATE SCHEMA IF NOT EXISTS app")
