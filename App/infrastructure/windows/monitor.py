@@ -1,17 +1,17 @@
 """class Monitor"""
 
-import json
 import tkinter as tk
 from infrastructure.frames.video_frame import VideoFrame 
 
 class Monitor:
 
-	def __init__(self, monitor, number):
+	def __init__(self, monitor, number, sources):
 
 		bheight = 31
 		bwidth = 130
 		bx = 0.95
 		
+		self.sources = sources
 		self.monitor = monitor
 		self.monitor.title("Violence Detection - Monitor")
 
@@ -24,26 +24,16 @@ class Monitor:
 		self.monitor.columnconfigure([0,1], minsize=screen_width/2.107)
 		self.monitor.rowconfigure([0,1,2], minsize=screen_height/3)
 
-		with open('data_storage/user_inputs/user_cameras_selection.json', 'r') as f:
-			user_sel = json.load(f)
-		f.close()
-
-		sources = [
-            (user_sel['one']['name'], user_sel['one']['source']), 
-            (user_sel['two']['name'], user_sel['two']['source']), 
-            (user_sel['three']['name'], user_sel['three']['source']), 
-            (user_sel['four']['name'], user_sel['four']['source']), 
-        ]
-
 		self.vids = []
 		columns = 2
 
-		for number, source in enumerate(sources):
-			name, stream = source
+		for number, source in enumerate(self.sources):
+			name, stream, ip = source
 			vid = VideoFrame(
 							 self.monitor, #>window to be used
 							 name, #>text on top
 							 stream, #>video source
+							 ip, #>api url
 							 int(screen_width/2.2), #>width
 							 int(screen_height/3.1) #>height
 							 )
@@ -77,6 +67,11 @@ class Monitor:
 
 
 	def restore_window(self):
+
+		print('[App] stopping threads')
+		for source in self.vids:
+			source.vid.running = False
+		print('[App] back to login')	
 		self.monitor.master.deiconify()
 		self.monitor.destroy()
 		

@@ -1,9 +1,44 @@
 {
-    "75th Avenue" : "https://youtu.be/eznpzqlZMYk",
-    "Lexington Avenue": "data_storage/snow.mp4",
-    "Maiden Lane": "data_storage/street.mp4",
-    "Main Office": "https://www.youtube.com/watch?v=T3SP2JsmOms",
-    "Peyton Lane": "data_storage/assault.mp4",
-    "St. George Square": "data_storage/church.mp4",
-    "Kogarah Alley": "data_storage/fight.mp4"
+    "75th Avenue" : {
+        "url": "https://youtu.be/eznpzqlZMYk",
+        "delay": 0,
+        "frames": 90,
+        "threshold": 75,
+        "ip": "http://34.75.143.92:5000"
+    },
+    "Lexington Avenue": {
+        "url": "data_storage/snow.mp4",
+        "delay": 0,
+        "frames": 90,
+        "threshold": 75,
+        "ip": ""
+    },
+    "Maiden Lane": {
+        "url": "data_storage/street.mp4",
+        "delay": 0,
+        "frames": 90,
+        "threshold": 75,
+        "ip": ""
+    },
+    "Main Office": {
+        "url": "https://www.youtube.com/watch?v=-9vsUJ6w2n0",
+        "delay": 0,
+        "frames": 90,
+        "threshold": 75,
+        "ip": "http://34.132.255.16:5000"
+    },
+    "Peyton Lane": {
+        "url": "data_storage/church.mp4",
+        "delay": 0,
+        "frames": 90,
+        "threshold": 75,
+        "ip": ""
+    },
+    "St. George Avenue": {
+        "url": "https://www.youtube.com/watch?v=mlN1cX8jdKE",
+        "delay": 0,
+        "frames": 90,
+        "threshold": 75,
+        "ip": "http://34.139.149.224:5000"
+    }
 }

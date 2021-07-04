@@ -11,7 +11,7 @@ import PIL.Image, PIL.ImageTk
 from infrastructure.entities.video_capture import VideoCapture
 from infrastructure.entities.api_connection import APIConnection
 
-api_url = "http://34.127.43.192:5000/ViolenceDetection/LogsDetections"
+api_url = "/ViolenceDetection/LogsDetections"
 
 # Class for each tkinter frame in the window grid
 class VideoFrame(tk.Frame):
@@ -22,6 +22,7 @@ class VideoFrame(tk.Frame):
                  window,
                  name="",
                  video_source=0,
+                 ip="",
                  width=None,
                  height=None):
 
@@ -40,6 +41,7 @@ class VideoFrame(tk.Frame):
         self.window = window
         self.name = name
         self.video_source = video_source
+        self.ip = ip
 
         ### Default stream state set to running while window is open
         self.running = True
@@ -56,7 +58,8 @@ class VideoFrame(tk.Frame):
                                 height)
 
         ### Load violence detection response from API
-        self.api = APIConnection(self.video_source, 
+        self.api = APIConnection(self.video_source,
+                                 self.ip, 
                                  self.vid,
                                  self)
 
@@ -124,6 +127,7 @@ class VideoFrame(tk.Frame):
         """
         if self.video_source[:4] == "http":
             self.detecting = "Detections On"
+            self.api.detection = False
             print("[StartDetection] turn on:", self.detecting) 
         
         else:
@@ -139,6 +143,7 @@ class VideoFrame(tk.Frame):
 
         if self.video_source[:4] == "http":
             self.detecting = "Detections Off"
+            self.api.detection = False
             print("[StopDetection] turn off:", self.detecting) 
         
         else:
@@ -178,7 +183,7 @@ class VideoFrame(tk.Frame):
             file_logs = time.strftime(f'%Y.%m.%d %H.%M.%S {self.name}.json')
 
             ### Get logs
-            response = requests.get(api_url)
+            response = requests.get(f"{self.ip}{api_url}")
             logs = json.loads(response.text)
 
             ### Save logs
@@ -201,26 +206,26 @@ class VideoFrame(tk.Frame):
 
         ### Get a frame from the video source
         ret, frame = self.vid.get_frame()
-        detection = self.api.detection
+        self.detection = self.api.detection
 
         self.label["text"] = self.name + ": " + self.detecting
 
         if ret: #>ret is True if vid truly contains a video to work with
 
-            signboard = 'Alarm: Violence Detected'
-            snap_time = time.strftime('%d/%m/%Y %H:%M:%S')
+            signboard = "Alarm: Violence Detected"
+            snap_time = time.strftime("%d/%m/%Y %H:%M:%S")
 
             self.image = PIL.Image.fromarray(frame) #>the captured frame itself
             self.photo = PIL.ImageTk.PhotoImage(image=self.image) #>make compatible
             self.canvas.create_image(0, 0, #>position to show the image
                                      image=self.photo, #>PhotoImage object
-                                     anchor='nw') #>northwest alignment
+                                     anchor="nw") #>northwest alignment
 
-            if detection and (self.detecting=="Detections On"):
-                self.canvas.create_text(173, 25, #>position to show the text
+            if self.detection and (self.detecting=="Detections On"):
+                self.canvas.create_text(183, 25, #>position to show the text
                                         fill="red",font="Helvetica 20 bold",
                                         text=signboard)
-                self.canvas.create_text(113, 45, #>position to show the text
+                self.canvas.create_text(110, 45, #>position to show the text
                                         fill="red",font="Helvetica 16 bold",
                                         text=snap_time)
         
