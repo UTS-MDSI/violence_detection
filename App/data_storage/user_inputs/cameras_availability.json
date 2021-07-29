@@ -4,7 +4,7 @@
         "delay": 0,
         "frames": 90,
         "threshold": 75,
-        "ip": "http://34.75.143.92:5000"
+        "ip": "http://34.139.30.64:5000"
     },
     "Lexington Avenue": {
         "url": "data_storage/snow.mp4",
@@ -21,10 +21,10 @@
         "ip": ""
     },
     "Main Office": {
-        "url": "https://www.youtube.com/watch?v=-9vsUJ6w2n0",
+        "url": "https://www.youtube.com/watch?v=dDX2T0u5MeM",
         "delay": 0,
         "frames": 90,
-        "threshold": 75,
+        "threshold": 80,
         "ip": "http://34.132.255.16:5000"
     },
     "Peyton Lane": {

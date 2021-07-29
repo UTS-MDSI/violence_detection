@@ -5,30 +5,30 @@
         "delay": 0,
         "frames": 90,
         "threshold": 75,
-        "ip": "http://34.75.143.92:5000"
+        "ip": "http://34.139.30.64:5000"
     },
     "two": {
-        "name": "Maiden Lane",
-        "url": "data_storage/street.mp4",
+        "name": "Main Office",
+        "url": "https://www.youtube.com/watch?v=dDX2T0u5MeM",
+        "delay": 0,
+        "frames": 90,
+        "threshold": 80,
+        "ip": "http://34.132.255.16:5000"
+    },
+    "three": {
+        "name": "Lexington Avenue",
+        "url": "data_storage/snow.mp4",
         "delay": 0,
         "frames": 90,
         "threshold": 75,
         "ip": ""
     },
-    "three": {
-        "name": "St. George Avenue",
-        "url": "https://www.youtube.com/watch?v=mlN1cX8jdKE",
-        "delay": 0,
-        "frames": 90,
-        "threshold": 75,
-        "ip": "http://34.139.149.224:5000"
-    },
     "four": {
-        "name": "Main Office",
-        "url": "https://www.youtube.com/watch?v=-9vsUJ6w2n0",
+        "name": "Lexington Avenue",
+        "url": "data_storage/snow.mp4",
         "delay": 0,
         "frames": 90,
         "threshold": 75,
-        "ip": "http://34.132.255.16:5000"
+        "ip": ""
     }
 }
